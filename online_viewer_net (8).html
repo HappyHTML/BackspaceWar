@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Backspace War</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #000000;
+        }
+        #game-container {
+            text-align: center;
+            background-color: black;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        #game-box {
+            width: 920px; /* Increased width to fit 92 characters */
+            height: 30px;
+            margin: 10px 0;
+            padding: 5px;
+            resize: none;
+            font-family: monospace;
+            font-size: 16px;
+            white-space: nowrap;
+            overflow-x: hidden;
+            color:white;
+            background-color:black;
+        }
+        #status {
+            font-weight: bold;
+            margin: 10px 0;
+            color:white;
+        }
+        button {
+            margin: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: blue;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0066ff;
+        }
+        
+        #title {
+            color:white;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <h2 id="title">Backspace War</h2>
+        <textarea id="game-box" readonly></textarea>
+        <p id="status">Game ready! Press 'S' or 'Backspace' to play.</p>
+        <button id="reset-button">Reset Game</button>
+    </div>
+
+<script>
+const gameBox = document.getElementById('game-box');
+const statusElement = document.getElementById('status');
+const resetButton = document.getElementById('reset-button');
+
+const MAX_LETTERS = 92;
+const HALFWAY = 46;
+let currentLetters = HALFWAY;
+let gameActive = true;
+
+function initializeGame() {
+    currentLetters = HALFWAY;
+    gameBox.value = 's'.repeat(HALFWAY);
+    statusElement.textContent = "Game ready! Press 'S' or 'Backspace' to play.";
+    gameActive = true;
+}
+
+initializeGame();
+
+document.addEventListener('keydown', (event) => {
+    if (!gameActive) return;
+    
+    if (event.key.toLowerCase() === 's' && currentLetters < MAX_LETTERS) {
+        event.preventDefault();
+        currentLetters++;
+        gameBox.value += 's';
+        checkWin();
+    } else if (event.key === 'Backspace' && currentLetters > 0) {
+        event.preventDefault();
+        currentLetters--;
+        gameBox.value = gameBox.value.slice(0, -1);
+        checkWin();
+    }
+});
+
+function checkWin() {
+    if (currentLetters === MAX_LETTERS) {
+        statusElement.textContent = 'Player 1 wins!';
+        gameActive = false;
+    } else if (currentLetters === 0) {
+        statusElement.textContent = 'Player 2 wins!';
+        gameActive = false;
+    } else {
+        statusElement.textContent = `Current letters: ${currentLetters}`;
+    }
+}
+
+resetButton.addEventListener('click', initializeGame);
+</script>
+</body>
+</html>
