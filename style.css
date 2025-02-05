@@ -1,3 +1,11 @@
+body{
+    background-color: black;
+}
+
+h1{
+ color: white;
+}
+
 .buttons{
     margin: 0 10px;
   }
