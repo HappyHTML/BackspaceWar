@@ -1,13 +1,16 @@
 body{
     background-color: black;
+    font-family: Arial, sans-serif;
 }
 
 h1{
  color: white;
+ text-align: center;
 }
 
 .buttons{
     margin: 0 10px;
+    text-align: center;
   }
 
   .buttons li a{
