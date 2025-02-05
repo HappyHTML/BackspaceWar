@@ -8,8 +8,10 @@ body {
     background-color: #000000;
 }
 
-h3{
-    padding-left: 10px;
+#home-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
 }
 
 #game-container {
