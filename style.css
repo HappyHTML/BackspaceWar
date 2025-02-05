@@ -16,6 +16,10 @@ p{
 color: white;
 }
 
+.standardHeader {
+  font-size: 100%;
+}
+
 .buttons{
     margin: 0 10px;
     text-align: center;
