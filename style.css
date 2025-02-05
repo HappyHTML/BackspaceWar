@@ -13,6 +13,7 @@ h1{
     margin: 0 10px;
     text-align: center;
     padding-top: 5px;
+    font-size: large;
   }
 
   .buttons li a{
@@ -20,6 +21,7 @@ h1{
     color: white;
     position: relative;
     padding-top: 10px;
+    font-size: large;
   }
   
     .buttons li a::after{
