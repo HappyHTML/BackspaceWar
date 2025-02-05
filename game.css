@@ -12,6 +12,8 @@ body {
     position: absolute;
     top: 10px;
     left: 10px;
+    color:#ffffff;
+    text-decoration: none;
 }
 
 #game-container {
