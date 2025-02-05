@@ -8,6 +8,13 @@ h1{
  text-align: center;
  font-size: 90px;
 }
+h2{
+color: white;
+}
+
+p{
+color: white;
+}
 
 .buttons{
     margin: 0 10px;
