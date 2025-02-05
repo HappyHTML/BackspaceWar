@@ -12,6 +12,9 @@ body {
     position: absolute;
     top: 10px;
     left: 10px;
+}
+
+#home-button-txt{
     color:#ffffff;
     text-decoration: none;
 }
