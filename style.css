@@ -1,0 +1,26 @@
+.buttons{
+    display: inline-block;
+    margin: 0 10px;
+  }
+
+  .buttons li a{
+    text-decoration: none;
+    color: blue;
+    text-shadow: -1px 1px black;
+    position: relative;
+  }
+  
+    .buttons li a::after{
+    content: '';
+    background: black;
+    width: 0;
+    height: 2px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transition: width 0.5s;
+  }
+  
+  .buttons li a:hover::after{
+    width:100%;
+  }
