@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Backspace vs Bot Game</title>
+    <link rel="stylesheet" href="game.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Electrolize&display=swap" rel="stylesheet">
+
+   </head>
+<body>
+    <div id="game-container">
+        <h2>Backspace vs Bot Game</h2>
+        <textarea id="game-box" readonly></textarea>
+        <p id="status">Game ready! Press any key to start.</p>
+        <p id="score">Round: 1</p>
+        <p id="scoreboard">Player: 0 | Bot: 0</p>
+        <button id="reset-button">Reset Game</button>
+    </div>
+
+<script>
+const gameBox = document.getElementById('game-box');
+const statusElement = document.getElementById('status');
+const scoreElement = document.getElementById('score');
+const scoreboardElement = document.getElementById('scoreboard');
+const resetButton = document.getElementById('reset-button');
+
+const MAX_LETTERS = 92;
+const HALFWAY = 46;
+let currentLetters = HALFWAY;
+let gameActive = false;
+let botInterval;
+let botSpeed = 500; // Starting speed in milliseconds
+let round = 1;
+let playerScore = 0;
+let botScore = 0;
+let lastBackspaceTime = 0;
+const BACKSPACE_DELAY = 100; // Minimum delay between backspace presses in milliseconds
+
+function initializeGame() {
+    currentLetters = HALFWAY;
+    gameBox.value = 's'.repeat(HALFWAY);
+    statusElement.textContent = "Game ready! Press any key to start.";
+    scoreElement.textContent = `Round: ${round}`;
+    updateScoreboard();
+    gameActive = false;
+    clearInterval(botInterval);
+}
+
+function startRound() {
+    currentLetters = HALFWAY;
+    gameBox.value = 's'.repeat(HALFWAY);
+    gameActive = true;
+    statusElement.textContent = "Game in progress!";
+    botInterval = setInterval(botAction, botSpeed);
+}
+
+function botAction() {
+    if (currentLetters < MAX_LETTERS) {
+        currentLetters++;
+        gameBox.value += 's';
+        checkWin();
+    }
+}
+
+function updateScoreboard() {
+    scoreboardElement.textContent = `Player: ${playerScore} | Bot: ${botScore}`;
+}
+
+initializeGame();
+
+document.addEventListener('keydown', (event) => {
+    event.preventDefault();
+    if (!gameActive) {
+        startRound();
+    } else if (event.key === 'Backspace' && currentLetters > 0) {
+        const currentTime = Date.now();
+        if (currentTime - lastBackspaceTime >= BACKSPACE_DELAY) {
+            currentLetters--;
+            gameBox.value = gameBox.value.slice(0, -1);
+            checkWin();
+            lastBackspaceTime = currentTime;
+        }
+    }
+});
+
+function checkWin() {
+    if (currentLetters === 0) {
+        statusElement.textContent = 'You win! Press any key to start next round.';
+        gameActive = false;
+        clearInterval(botInterval);
+        playerScore++;
+        round++;
+        botSpeed = Math.max(50, botSpeed - 50); // Speed up bot, minimum 50ms
+        scoreElement.textContent = `Round: ${round}`;
+        updateScoreboard();
+    } else if (currentLetters === MAX_LETTERS) {
+        statusElement.textContent = 'Bot wins! Game Over. Press any key to restart.';
+        gameActive = false;
+        clearInterval(botInterval);
+        botScore++;
+        round = 1;
+        botSpeed = 500; // Reset bot speed
+        scoreElement.textContent = `Round: ${round}`;
+        updateScoreboard();
+    }
+}
+
+resetButton.addEventListener('click', () => {
+    round = 1;
+    playerScore = 0;
+    botScore = 0;
+    botSpeed = 500;
+    initializeGame();
+});
+</script>
+</body>
+</html>
