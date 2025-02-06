@@ -12,6 +12,7 @@ body {
     position: absolute;
     top: 10px;
     left: 10px;
+    font-family: "Electrolize", serif;
 }
 
 #home-button-txt{
@@ -46,6 +47,7 @@ body {
     font-weight: bold;
     margin: 10px 0;
     color:white;
+    font-family: "Electrolize", serif;
 }
 
 button {
