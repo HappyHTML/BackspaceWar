@@ -71,11 +71,11 @@ button:hover {
     font-family: "Electrolize", serif;
 }
 
-.score{
+#score{
     color: white;
     font-family: "Electrolize", serif;
 }
-.scoreboard{ 
+#scoreboard{ 
     color: white;
     font-family: "Electrolize", serif;
 }
