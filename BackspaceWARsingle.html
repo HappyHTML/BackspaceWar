@@ -1,34 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Backspace vs Bot Game</title>
-    <link rel="stylesheet" href="game.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Electrolize&display=swap" rel="stylesheet">
-   </head>
-<body>
-    <div id="home-button">
-        <h3><a href="index.html" id="home-button-txt">Home</a></h3>
-    </div>
-    <div id="game-container">
-        <h2 id="title">Backspace War</h2>
-        <textarea id="game-box" readonly></textarea>
-        <p id="status">Game ready! Press any key to start.</p>
-        <p id="score">Round: 1</p>
-        <p id="scoreboard">Player: 0 | Bot: 0</p>
-        <button id="reset-button">Reset Game</button>
-    </div>
-    <div id="dev-tools">
-        <h3>Dev Tools</h3>
-        <label for="backspace-delay">Backspace Delay (ms):</label>
-        <input type="number" id="backspace-delay" min="0" max="1000" step="10" value="100">
-        <button id="clear-board">Clear Board</button>
-    </div>
-</div>
-
-<script src="oneplayer.js"></script>
-</body>
-</html>
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Backspace vs Bot Game</title>
+            <link rel="stylesheet" href="game.css">
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link href="https://fonts.googleapis.com/css2?family=Electrolize&display=swap" rel="stylesheet">
+        </head>
+        <body>
+            <div id="home-button">
+                <h3><a href="index.html" id="home-button-txt">Home</a></h3>
+            </div>
+            <div id="game-container">
+                <h2 id="title">Backspace War</h2>
+                <textarea id="game-box" readonly></textarea>
+                <p id="status">Game ready! Press any key to start.</p>
+                <p id="score">Round: 1</p>
+                <p id="scoreboard">Player: 0 | Bot: 0</p>
+                <button id="reset-button">Reset Game</button>
+            </div>
+            <div id="dev-tools">
+                <h3>Dev Tools</h3>
+                <label for="backspace-delay">Backspace Delay (ms):</label>
+                <input type="number" id="backspace-delay" min="0" max="1000" step="10" value="100">
+                <button id="clear-board">Clear Board</button>
+            </div>
+            </div>
+            <script src="oneplayer.js"></script>
+        </body>
+    </html>

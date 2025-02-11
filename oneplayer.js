@@ -12,12 +12,12 @@ const HALFWAY = 46;
 let currentLetters = HALFWAY;
 let gameActive = false;
 let botInterval;
-let botSpeed = 500; // Starting speed in milliseconds
+let botSpeed = 500; //starting speed in (ms)
 let round = 1;
 let playerScore = 0;
 let botScore = 0;
 let lastBackspaceTime = 0;
-let BACKSPACE_DELAY = 100; // Minimum delay between backspace presses in milliseconds
+let BACKSPACE_DELAY = 100; //min delay between backspace presses in (ms)
 
 let lastThreeKeyPresses = [];
 let devToolsVisible = false;
@@ -57,7 +57,7 @@ initializeGame();
 document.addEventListener('keydown', (event) => {
     event.preventDefault();
     
-    // Easter egg: Dev tools toggle
+    //Dev tools toggle
     lastThreeKeyPresses.push(event.key);
     if (lastThreeKeyPresses.length > 3) {
         lastThreeKeyPresses.shift();
