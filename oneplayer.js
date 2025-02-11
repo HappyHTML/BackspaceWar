@@ -3,6 +3,9 @@ const statusElement = document.getElementById('status');
 const scoreElement = document.getElementById('score');
 const scoreboardElement = document.getElementById('scoreboard');
 const resetButton = document.getElementById('reset-button');
+const devTools = document.getElementById('dev-tools');
+const backspaceDelayInput = document.getElementById('backspace-delay');
+const clearBoardButton = document.getElementById('clear-board');
 
 const MAX_LETTERS = 92;
 const HALFWAY = 46;
@@ -14,7 +17,10 @@ let round = 1;
 let playerScore = 0;
 let botScore = 0;
 let lastBackspaceTime = 0;
-const BACKSPACE_DELAY = 100; // Minimum delay between backspace presses in milliseconds
+let BACKSPACE_DELAY = 100; // Minimum delay between backspace presses in milliseconds
+
+let lastThreeKeyPresses = [];
+let devToolsVisible = false;
 
 function initializeGame() {
     currentLetters = HALFWAY;
@@ -50,6 +56,18 @@ initializeGame();
 
 document.addEventListener('keydown', (event) => {
     event.preventDefault();
+    
+    // Easter egg: Dev tools
+    lastThreeKeyPresses.push(event.key);
+    if (lastThreeKeyPresses.length > 3) {
+        lastThreeKeyPresses.shift();
+    }
+    if (lastThreeKeyPresses.join('') === '333') {
+        devToolsVisible = !devToolsVisible;
+        devTools.style.display = devToolsVisible ? 'block' : 'none';
+        return;
+    }
+
     if (!gameActive) {
         startRound();
     } else if (event.key === 'Backspace' && currentLetters > 0) {
@@ -91,4 +109,15 @@ resetButton.addEventListener('click', () => {
     botScore = 0;
     botSpeed = 500;
     initializeGame();
+});
+
+// Dev Tools functionality
+backspaceDelayInput.addEventListener('change', (event) => {
+    BACKSPACE_DELAY = parseInt(event.target.value);
+});
+
+clearBoardButton.addEventListener('click', () => {
+    currentLetters = 0;
+    gameBox.value = '';
+    checkWin();
 });
