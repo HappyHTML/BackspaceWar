@@ -79,3 +79,14 @@ button:hover {
     color: white;
     font-family: "Electrolize", serif;
 }
+#dev-tools {
+    display: none;
+    background-color: black;
+    padding: 10px;
+    margin-top: 20px;
+    font-family: "Electrolize", serif;
+}
+#clear-board{
+    color: white;
+    font-family: "Electrolize", serif;
+}
