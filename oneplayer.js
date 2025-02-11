@@ -57,7 +57,7 @@ initializeGame();
 document.addEventListener('keydown', (event) => {
     event.preventDefault();
     
-    // Easter egg: Dev tools
+    // Easter egg: Dev tools toggle
     lastThreeKeyPresses.push(event.key);
     if (lastThreeKeyPresses.length > 3) {
         lastThreeKeyPresses.shift();
@@ -65,6 +65,7 @@ document.addEventListener('keydown', (event) => {
     if (lastThreeKeyPresses.join('') === '333') {
         devToolsVisible = !devToolsVisible;
         devTools.style.display = devToolsVisible ? 'block' : 'none';
+        lastThreeKeyPresses = []; // Reset the key presses
         return;
     }
 
