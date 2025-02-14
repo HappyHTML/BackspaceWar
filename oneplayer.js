@@ -2,6 +2,7 @@ const gameBox = document.getElementById('game-box');
 const statusElement = document.getElementById('status');
 const scoreElement = document.getElementById('score');
 const scoreboardElement = document.getElementById('scoreboard');
+const activePowerupElement = document.getElementById('active-powerup');
 const resetButton = document.getElementById('reset-button');
 const devTools = document.getElementById('dev-tools');
 const backspaceDelayInput = document.getElementById('backspace-delay');
@@ -12,15 +13,23 @@ const HALFWAY = 46;
 let currentLetters = HALFWAY;
 let gameActive = false;
 let botInterval;
-let botSpeed = 500; //starting speed in (ms)
+let botSpeed = 500;
 let round = 1;
 let playerScore = 0;
 let botScore = 0;
 let lastBackspaceTime = 0;
-let BACKSPACE_DELAY = 100; //min delay between backspace presses in (ms)
+let BACKSPACE_DELAY = 100;
 
 let lastThreeKeyPresses = [];
 let devToolsVisible = false;
+
+const powerUps = [
+    { name: 'Double Backspace', duration: 5000, effect: () => BACKSPACE_DELAY /= 2 },
+    { name: 'Slow Bot', duration: 5000, effect: () => botSpeed *= 2 },
+    { name: 'Clear 10', duration: 0, effect: () => currentLetters = Math.max(0, currentLetters - 10) }
+];
+
+let activePowerUp = null;
 
 function initializeGame() {
     currentLetters = HALFWAY;
@@ -30,6 +39,8 @@ function initializeGame() {
     updateScoreboard();
     gameActive = false;
     clearInterval(botInterval);
+    activePowerUp = null;
+    updateActivePowerupDisplay();
 }
 
 function startRound() {
@@ -52,12 +63,38 @@ function updateScoreboard() {
     scoreboardElement.textContent = `Player: ${playerScore} | Bot: ${botScore}`;
 }
 
+function updateActivePowerupDisplay() {
+    activePowerupElement.textContent = `Active Power-up: ${activePowerUp ? activePowerUp.name : 'None'}`;
+}
+
+function applyPowerUp() {
+    if (Math.random() < 0.1) {
+        const powerUp = powerUps[Math.floor(Math.random() * powerUps.length)];
+        activePowerUp = { ...powerUp };
+        activePowerUp.effect();
+        updateActivePowerupDisplay();
+
+        if (activePowerUp.duration > 0) {
+            setTimeout(() => {
+                activePowerUp = null;
+                BACKSPACE_DELAY = 100;
+                botSpeed = 500 - (round - 1) * 50;
+                updateActivePowerupDisplay();
+            }, activePowerUp.duration);
+        } else {
+            setTimeout(() => {
+                activePowerUp = null;
+                updateActivePowerupDisplay();
+            }, 1000);
+        }
+    }
+}
+
 initializeGame();
 
 document.addEventListener('keydown', (event) => {
     event.preventDefault();
     
-    //Dev tools toggle
     lastThreeKeyPresses.push(event.key);
     if (lastThreeKeyPresses.length > 3) {
         lastThreeKeyPresses.shift();
@@ -65,7 +102,7 @@ document.addEventListener('keydown', (event) => {
     if (lastThreeKeyPresses.join('') === '333') {
         devToolsVisible = !devToolsVisible;
         devTools.style.display = devToolsVisible ? 'block' : 'none';
-        lastThreeKeyPresses = []; // Reset the key presses
+        lastThreeKeyPresses = [];
         return;
     }
 
@@ -78,6 +115,7 @@ document.addEventListener('keydown', (event) => {
             gameBox.value = gameBox.value.slice(0, -1);
             checkWin();
             lastBackspaceTime = currentTime;
+            applyPowerUp();
         }
     }
 });
@@ -89,7 +127,7 @@ function checkWin() {
         clearInterval(botInterval);
         playerScore++;
         round++;
-        botSpeed = Math.max(50, botSpeed - 50); // Speed up bot, minimum 50ms
+        botSpeed = Math.max(50, botSpeed - 50);
         scoreElement.textContent = `Round: ${round}`;
         updateScoreboard();
     } else if (currentLetters === MAX_LETTERS) {
@@ -98,7 +136,7 @@ function checkWin() {
         clearInterval(botInterval);
         botScore++;
         round = 1;
-        botSpeed = 500; // Reset bot speed
+        botSpeed = 500;
         scoreElement.textContent = `Round: ${round}`;
         updateScoreboard();
     }
@@ -112,7 +150,6 @@ resetButton.addEventListener('click', () => {
     initializeGame();
 });
 
-// Dev Tools functionality
 backspaceDelayInput.addEventListener('change', (event) => {
     BACKSPACE_DELAY = parseInt(event.target.value);
 });
